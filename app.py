@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 import pickle
 import numpy as np
+import os  # Import the os module
 
 # Load the trained model from the pickle file
 with open('titanic_model.pkl', 'rb') as f:
@@ -32,4 +33,6 @@ def predict():
 
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))  # Get port from environment
+    debug = os.environ.get("DEBUG", "False").lower() == "true"  # Get debug mode from environment
+    app.run(host='0.0.0.0', port=port, debug=debug)  # Run the app with debug mode based on the environment variable
